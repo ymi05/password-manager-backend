@@ -6,7 +6,7 @@ import os
 import json
 import textwrap
 from configparser import ConfigParser
-
+from sms_sender import SMS_Client
 import os
 import sys
 
@@ -54,8 +54,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if name and phone_no and password: 
         add_profile_query = "EXEC Profile_Add "+"@Full_Name='"+name+"'"+" , @Email='"+email+"'"+" , @Password='"+password+"'"+" , @Phone_No='"+phone_no+"';"
         response = query_handler.exec_query_with_message(add_profile_query)
+        data = json.loads(response)[0]
 
-        return func.HttpResponse(response)
+        if "profile_id" in data:
+            profile_id = data['profile_id']
+            sms_client = SMS_Client()
+            sms_client.send_verification_message(profile_id)
+        return func.HttpResponse(json.dumps(response))
     else:
 
         return func.HttpResponse(

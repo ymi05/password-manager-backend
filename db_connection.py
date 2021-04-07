@@ -33,6 +33,6 @@ class Db_Connection:
         self.conn.close()
 
     def set_connection_string(self):
-        database_server , database_name , database_username , database_password = read_config_file(self.config_file_path , self.config_file)
+        database_server , database_name , database_username , database_password = read_config_file(self.config_file_path , self.config_file , "server.credentials" , ["server" , "database" , "username" , "password"])
         driver= '{ODBC Driver 17 for SQL Server}'  
         self.connection_string = 'DRIVER='+driver+';SERVER='+database_server+';PORT=1433;DATABASE='+database_name+';UID='+database_username+';PWD='+database_password+';ENCYRPT=yes;TrustServerCertificate=no;Connection Timeout=30;'

@@ -7,6 +7,7 @@ import json
 import textwrap
 from configparser import ConfigParser
 
+
 import os
 import sys
 
@@ -39,8 +40,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if code and profile_id: 
         verify_profile_query = "EXEC Profile_Verify "+"@Profile_id='"+profile_id+"'"+" , @Verification_Code='"+code+"';"
         response = query_handler.exec_query_with_message(verify_profile_query)
-
-        return func.HttpResponse(response)
+  
+        return func.HttpResponse(json.dumps(response))
     else:
 
         return func.HttpResponse(
