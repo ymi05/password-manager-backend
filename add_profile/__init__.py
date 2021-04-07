@@ -18,6 +18,7 @@ import query_handler
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
     name = req.params.get('name')
+    email = req.params.get('email')
     phone_no = req.params.get("phone_no")
     password = req.params.get('password')
 
@@ -35,6 +36,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             pass
         else:
             name = req_body.get('phone_no')
+    if not email:
+        try:
+            req_body = req.get_json()
+        except ValueError:
+            pass
+        else:
+            email = req_body.get('email')
     if not password:
         try:
             req_body = req.get_json()
@@ -44,7 +52,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             name = req_body.get('password')
    
     if name and phone_no and password: 
-        add_profile_query = "Exec add_profile "+"@Name='"+name+"'"+" , @Phone_No='"+phone_no+"'"+" , @Password='"+password+"';"
+        add_profile_query = "EXEC Profile_Add "+"@Full_Name='"+name+"'"+" , @Email='"+email+"'"+" , @Password='"+password+"'"+" , @Phone_No='"+phone_no+"';"
         response = query_handler.exec_query_with_message(add_profile_query)
 
         return func.HttpResponse(response)
