@@ -7,7 +7,12 @@ from query_handler import exec_query_with_records
 # and set the environment variables. See http://twil.io/secure
 class SMS_Client:
     def __init__(self , config_file = "config.ini" , config_file_path = os.path.dirname(__file__)):
-
+        """[summary]
+            SMS client that can send messages to users
+        Args:
+            config_file_path (str, optional): Location of the config file. Defaults to os.path.dirname(__file__).
+            config_file (str, optional): File name. Defaults to "config.ini".
+        """    
         self.config_file = config_file
         self.config_file_path = config_file_path
         self.account_sid , self.auth_token = read_config_file(self.config_file_path , self.config_file , "twilio.credentials" , ["account_sid" , "auth_token"])

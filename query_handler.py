@@ -15,7 +15,7 @@ def exec_query_with_message(sql_query):
             message = cursor.fetchone()[0]
             if message == None:
                 return message
-            # message = json.dumps(cursor.fetchone()[0])
+
     return message
 
 def exec_query_with_records(sql_query):

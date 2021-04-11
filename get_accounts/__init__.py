@@ -7,6 +7,7 @@ import json
 import textwrap
 from configparser import ConfigParser
 # from sms_sender import SMS_Client
+# NOTE: UNCOMMENT THIS WHEN DONE
 import os
 import sys
 
@@ -34,7 +35,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         data["accounts"] = []
         for record in response:
             account = {}
-            
+         
             
             account["accoutn_id"] = record[0]
             account["URL"] = record[1]
@@ -44,16 +45,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             data["accounts"].append(account)
 
-    
-
-
-
         return func.HttpResponse(
             json.dumps(data) ,
             mimetype="application/json"
             )
     else:
-
+        # TODO: turn this into a json response
         return func.HttpResponse(
             "There is a missing parameter in your request",
             status_code=200

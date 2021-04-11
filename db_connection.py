@@ -6,8 +6,13 @@ from config_file_handler import read_config_file
 import traceback
 class Db_Connection:
   
-    def __init__(self , config_file = "config.ini" , config_file_path = os.path.dirname(__file__)):
-        #Initialize ConfigParser
+    def __init__(self  , config_file_path = os.path.dirname(__file__) , config_file = "config.ini" ):
+        """[summary]
+            Class that establishes a connection with the SQL database
+        Args:
+            config_file_path (str, optional): Location of the config file. Defaults to os.path.dirname(__file__).
+            config_file (str, optional): File name. Defaults to "config.ini".
+        """       
         self.connection_string = None
         self.config_file = config_file
         self.config_file_path = config_file_path
