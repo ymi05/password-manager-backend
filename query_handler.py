@@ -13,6 +13,8 @@ def exec_query_with_message(sql_query):
         with conn.cursor() as cursor:
             cursor.execute(sql_query)
             message = cursor.fetchone()[0]
+            if message == None:
+                return message
             # message = json.dumps(cursor.fetchone()[0])
     return message
 
@@ -28,3 +30,15 @@ def exec_query_with_records(sql_query):
                 row = cursor.fetchone()
 
     return records
+
+# profile_id = '1'
+# URL = "3432432"
+# website_app_name = "twttier"
+# username = 'ruiewgru'
+# password = 'sfdfsdf'
+# query = "EXEC Account_Add "+"@Profile_id='"+profile_id+"'"+" , @URL='"+URL+"'"+" , @Website_app_name='"+website_app_name+"'"+" , @Username='"+username+"'"+" , @Password='"+password+"';"
+# print(query)
+# print(exec_query_with_message(query))
+# profile_id = '2'
+# query ="EXEC Accounts_Get "+"@Profile_id='"+profile_id+"';"
+# print(exec_query_with_records(query))

@@ -12,8 +12,8 @@ CREATE TABLE Profile(
 
 CREATE TABLE Account(
 	id [INT] IDENTITY(1, 1) NOT NULL, 
-	website_URL VARCHAR(40) NOT NULL,
-	website_name VARCHAR(20) NOT NULL,
+	[URL] VARCHAR(40) NULL,
+	website_app_name VARCHAR(20) NOT NULL,
 	username VARCHAR(40) NOT NULL,
 	password VARCHAR(100),
 	creation_date DATETIME NOT NULL,

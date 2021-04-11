@@ -21,7 +21,7 @@ class SMS_Client:
         verification_code = data["verification code"]
         phone_no = data["phone_no"]
 
-        message = f"Hello {name}! Here's your verification code: {verification_code} :)"
+        message = f"Hello! Here's your verification code: {verification_code}. If you did not sign up, please ignore this SMS "
         return phone_no , message
 
 
