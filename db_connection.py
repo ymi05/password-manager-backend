@@ -23,7 +23,6 @@ class Db_Connection:
             self.__exit__()
         
       
-
     def __enter__(self):
         return self.conn
 
