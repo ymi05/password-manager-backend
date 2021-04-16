@@ -7,6 +7,7 @@ import json
 import textwrap
 from configparser import ConfigParser
 # from sms_sender import SMS_Client
+import email_sender
 import os
 import sys
 
@@ -17,25 +18,10 @@ import query_handler
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
-    name = req.params.get('name')
     email = req.params.get('email')
-    phone_no = req.params.get("phone_no")
     password = req.params.get('password')
 
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
-    if not phone_no:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            phone_no = req_body.get('phone_no')
+
     if not email:
         try:
             req_body = req.get_json()
@@ -51,15 +37,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             password = req_body.get('password')
    
-    if name and phone_no and password and email: 
-        add_profile_query = "EXEC Profile_Add "+"@Full_Name='"+name+"'"+" , @Email='"+email+"'"+" , @Password='"+password+"'"+" , @Phone_No='"+phone_no+"';"
-        response = query_handler.exec_query_with_message(add_profile_query)
+    if password and email: 
+        profile_authentication_query = "EXEC validate_profile @Email='"+email+"'"+" , @Password='"+password+"';"
+        response = query_handler.exec_query_with_message(profile_authentication_query)
         data = json.loads(response)[0]
+        if not data["valid"]:
+            
+            return func.HttpResponse(
+            json.dumps({'valid':False}) ,
+            mimetype="application/json"
+        ) 
 
         if "profile_id" in data:
             profile_id = data['profile_id']
-            # sms_client = SMS_Client()
-            # sms_client.send_verification_message(profile_id)
+            to_email , message = email_sender.generate_auth_message(profile_id)
+            email_sender.send_mail( to_email , message)
         return func.HttpResponse(
             json.dumps(data) ,
             mimetype="application/json"

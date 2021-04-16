@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[Code_generate](
+CREATE OR ALTER PROCEDURE [dbo].[Verification_Code_generate](
 	@Profile_id INT,
 	@Code VARCHAR(6)
 )
@@ -8,3 +8,4 @@ AS
 			INSERT INTO [dbo].[Verification_Code] (profile_id , code_value) VALUES ( @Profile_id , @Code);
 		END
 GO
+

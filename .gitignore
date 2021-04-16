@@ -130,3 +130,6 @@ obj
 appsettings.json
 local.settings.json
 .python_packages
+add_profile/__init__.py
+add_profile/function.json
+add_profile/sample.dat
