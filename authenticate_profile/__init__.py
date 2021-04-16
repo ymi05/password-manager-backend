@@ -38,10 +38,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
    
     if code and profile_id: 
-        verify_profile_query = "EXEC Profile_Verify "+"@Profile_id='"+profile_id+"'"+" , @Verification_Code='"+code+"';"
-        response = query_handler.exec_query_with_message(verify_profile_query)
-  
-        return func.HttpResponse(json.dumps(response))
+        auth_profile_query = "EXEC Profile_Authenticate "+"@Profile_id='"+profile_id+"'"+" , @Authentication_Code='"+code+"';"
+        response = query_handler.exec_query_with_message(auth_profile_query)
+        response = json.loads(response)[0]
+        return func.HttpResponse(
+            json.dumps(response) ,
+            mimetype="application/json"
+        )
     else:
 
         return func.HttpResponse(

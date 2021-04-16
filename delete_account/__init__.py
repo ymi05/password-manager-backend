@@ -38,11 +38,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
    
     if profile_id and account_id: 
         delete_account_query = "EXEC Account_Delete "+"@Profile_id='"+profile_id+"'"+" , @Account_id='"+account_id+"';"
-        response = query_handler.exec_query_with_message(delete_account_query)
-        data = json.loads(response)[0]
-
+        response = json.loads(response)[0]
         return func.HttpResponse(
-            json.dumps(data) ,
+            json.dumps(response) ,
             mimetype="application/json"
         )
     else:

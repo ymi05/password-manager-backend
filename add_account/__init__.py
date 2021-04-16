@@ -65,9 +65,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             add_account_query = "EXEC Account_Add @Profile_id = '"+profile_id+"'"+" , @URL = '"+URL+"'"+" , @Website_app_name = '"+website_app_name+"'"+" , @Username = '"+username+"'"+" , @Password ='"+password+"';"
 
         response = query_handler.exec_query_with_message(add_account_query)
-        data = json.loads(response)[0]
+        response = json.loads(response)[0]
         return func.HttpResponse(
-            json.dumps(data) ,
+            json.dumps(response) ,
             mimetype="application/json"
         )
     else:
