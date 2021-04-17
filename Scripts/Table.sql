@@ -8,18 +8,18 @@ CREATE TABLE Profile(
 	CONSTRAINT PK_Profile PRIMARY KEY(id)
 );
 
-CREATE TABLE Account(
-	id [INT] IDENTITY(1, 1) NOT NULL, 
-	website_app_name VARCHAR(20) NOT NULL,
-	username VARCHAR(40) NOT NULL,
-	password VARCHAR(100),
-	creation_date DATETIME NOT NULL,
-	[profile_id] INT NOT NULL FOREIGN KEY REFERENCES Profile(id) ON DELETE CASCADE
-	CONSTRAINT PK_Account  PRIMARY KEY(id)
+-- CREATE TABLE Account(
+-- 	id [INT] IDENTITY(1, 1) NOT NULL, 
+-- 	website_app_name VARCHAR(20) NOT NULL,
+-- 	username VARCHAR(40) NOT NULL,
+-- 	password VARCHAR(100),
+-- 	creation_date DATETIME NOT NULL,
+-- 	[profile_id] INT NOT NULL FOREIGN KEY REFERENCES Profile(id) ON DELETE CASCADE
+-- 	CONSTRAINT PK_Account  PRIMARY KEY(id)
 
-);
-CREATE INDEX profile_accounts
-ON Account ([profile_id]);
+-- );
+-- CREATE INDEX profile_accounts
+-- ON Account ([profile_id]);
 
 
 CREATE TABLE Verification_Code(
@@ -49,3 +49,12 @@ CREATE TABLE Authentication_Code(
 CREATE UNIQUE INDEX code_id
 on Authentication_Code (id);
 
+
+
+CREATE TABLE Vault(
+	id [INT] IDENTITY(1, 1) NOT NULL,
+	encrypted_vault VARCHAR(MAX),
+	[profile_id] INT NOT NULL FOREIGN KEY REFERENCES Profile(id) ON DELETE CASCADE
+	CONSTRAINT PK_Vault_id  PRIMARY KEY(id)
+
+);
