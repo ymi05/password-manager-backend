@@ -12,7 +12,7 @@ def profile_is_verified(profile_id: int) -> bool:
     Returns:
         boolean: tells us whether the user has been verified or not
     """    
-    response = exec_query_with_message("EXEC profile_is_verified @Profile_id = '"+profile_id+"';")
+    response = exec_query_with_message("EXEC profile_is_verified @Profile_id = '"+str(profile_id)+"';")
     response = json.loads(response)[0]
     if response["verified"] == 1:
         return True

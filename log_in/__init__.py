@@ -14,6 +14,7 @@ import sys
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
 
+from profile_is_verified import profile_is_verified
 import query_handler
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -36,7 +37,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             pass
         else:
             password = req_body.get('password')
-   
+    
+    
+    response = {'message' : "There is a missing parameter in your request"}
     if password and email: 
         profile_authentication_query = "EXEC validate_profile @Email='"+email+"'"+" , @Password='"+password+"';"
         response = query_handler.exec_query_with_message(profile_authentication_query)
@@ -48,20 +51,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             mimetype="application/json"
         ) 
 
+        
         if "profile_id" in data:
             profile_id = data['profile_id']
-            to_email , message = email_sender.generate_auth_message(profile_id)
-            email_sender.send_mail( to_email , message)
-        return func.HttpResponse(
-            json.dumps(data) ,
-            mimetype="application/json"
-        )
-    else:
 
-        return func.HttpResponse(
-            "There is a missing parameter in your request",
-            status_code=200
-        )
+            if profile_is_verified(profile_id) :
+                to_email , message = email_sender.generate_auth_message(profile_id)
+                email_sender.send_mail( to_email , message)
+                response = data
+
+            response = {'message':"Please verify your account"}
+
+    return func.HttpResponse(
+        json.dumps(response) ,
+        mimetype="application/json"
+    )
 
 
 

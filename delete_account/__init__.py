@@ -35,21 +35,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             account_id = req_body.get('account_id')
 
+    reponse = {'message' : "There is a missing parameter in your request"}
    
     if profile_id and account_id: 
         delete_account_query = "EXEC Account_Delete "+"@Profile_id='"+profile_id+"'"+" , @Account_id='"+account_id+"';"
+        response = query_handler.exec_query_with_message(delete_account_query)
         response = json.loads(response)[0]
-        return func.HttpResponse(
-            json.dumps(response) ,
-            mimetype="application/json"
-        )
-    else:
 
-        return func.HttpResponse(
-            "There is a missing parameter in your request",
-            status_code=200
-        )
-
+    return func.HttpResponse(
+        json.dumps(response) ,
+        mimetype="application/json"
+    )
 
 
 

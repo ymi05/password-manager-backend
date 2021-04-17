@@ -1,7 +1,6 @@
 CREATE OR ALTER  PROCEDURE [dbo].[Account_Add]
 (
 	@Profile_id INT,
-	@URL VARCHAR(40) = NULL,
 	@Website_app_name VARCHAR(20),
 	@Username VARCHAR(40),
 	@Password VARCHAR(100)
@@ -19,7 +18,6 @@ IF NOT EXISTS (SELECT * FROM Account WHERE @Username = username AND @Website_app
 		INSERT INTO Account 
 		(
 			profile_id,
-			[URL],
 			website_app_name,
 			username,
 			password,
@@ -28,7 +26,6 @@ IF NOT EXISTS (SELECT * FROM Account WHERE @Username = username AND @Website_app
 		VALUES 
 		(
 			@Profile_id,
-			@URL,
 			@Website_app_name,
 			@Username,
 			@Password,

@@ -13,7 +13,7 @@ import sys
 
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
-
+from profile_is_verified import profile_is_verified
 import query_handler
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -28,33 +28,32 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             profile_id = req_body.get('profile_id')
    
+
+    response = {"message":"There is a missing parameter in your request"}
     if profile_id : 
-        get_accounts_query = "EXEC Accounts_Get "+"@Profile_id='"+profile_id+"';"
-        response = query_handler.exec_query_with_records(get_accounts_query)
-        data = {}
-        data["accounts"] = []
-        for record in response:
-            account = {}
-         
+        response = {"message": "Profile is not verified or does not exist"}
+        if profile_is_verified(profile_id):
+            get_accounts_query = "EXEC Accounts_Get "+"@Profile_id='"+profile_id+"';"
+            response = query_handler.exec_query_with_records(get_accounts_query)
+
+            data = {}
+            data["messsage"] = "Profile found."
+            data["accounts"] = []
+            for record in response:
+                account = {}
             
-            account["accoutn_id"] = record[0]
-            account["URL"] = record[1]
-            account["website_app_name"] = record[2]
-            account["username"] = record[3]
-            account["password"] = record[4]
+                account["account_id"] = record[0]
+                account["website_app_name"] = record[1]
+                account["username"] = record[2]
+                account["password"] = record[3]
 
-            data["accounts"].append(account)
+                data["accounts"].append(account)
 
-        return func.HttpResponse(
-            json.dumps(data) ,
-            mimetype="application/json"
-            )
-    else:
-        # TODO: turn this into a json response
-        return func.HttpResponse(
-            "There is a missing parameter in your request",
-            status_code=200
-        )
+            response = data
+    return func.HttpResponse(
+        json.dumps(response) ,
+        mimetype="application/json"
+    )
 
 
 

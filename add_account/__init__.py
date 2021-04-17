@@ -12,7 +12,7 @@ import sys
 
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
-
+from profile_is_verified import profile_is_verified
 import query_handler
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -58,28 +58,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             pass
         else:
             password = req_body.get('password')
-   
+
+    respone = {"message":"There is a missing parameter in your request"}
+    if not profile_is_verified(profile_id):
+        response = {'message':"Please verify your account"}
+  
+
     if profile_id and website_app_name and password and username: 
         add_account_query = "EXEC Account_Add @Profile_id = '"+profile_id+"'"+" , @Website_app_name = '"+website_app_name+"'"+" , @Username = '"+username+"'"+" , @Password ='"+password+"';"
-        if URL:
-            add_account_query = "EXEC Account_Add @Profile_id = '"+profile_id+"'"+" , @URL = '"+URL+"'"+" , @Website_app_name = '"+website_app_name+"'"+" , @Username = '"+username+"'"+" , @Password ='"+password+"';"
 
         response = query_handler.exec_query_with_message(add_account_query)
         response = json.loads(response)[0]
-        return func.HttpResponse(
-            json.dumps(response) ,
-            mimetype="application/json"
-        )
-    else:
 
-        return func.HttpResponse(
-            "There is a missing parameter in your request",
-            status_code=200
-        )
+    return func.HttpResponse(
+        json.dumps(response) ,
+        mimetype="application/json"
+    )
 
-
-
-
-
-
-# add_account?profile_id=1&website_app_name=twitter.com&username=yousse123&password=fehf43fh43f
