@@ -65,7 +65,3 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         json.dumps(response) ,
         mimetype="application/json"
     )
-
-
-
-

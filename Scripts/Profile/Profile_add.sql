@@ -2,7 +2,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[Profile_Add]
 (	     
 	@Full_Name VARCHAR(30),
 	@Email VARCHAR(40),
-	@Password VARCHAR(100)
+	@Password VARCHAR(MAX)
 )
 AS
 	SET NOCOUNT ON;
