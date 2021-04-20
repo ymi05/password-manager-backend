@@ -1,5 +1,9 @@
 #Config File
 config.ini
+
+#Unused files
+sms_sender
+get_accounts/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

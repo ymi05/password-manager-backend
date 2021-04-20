@@ -11,7 +11,7 @@ def read_config_file(directory , file_name , section , requested_params):
         requested_params (array): contains the values we want from the file
 
     Returns:
-        Void
+        Values of the variables for the selected section
     """    
     config_parser = ConfigParser()
     config_file = os.path.join(directory, file_name)

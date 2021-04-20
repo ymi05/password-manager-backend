@@ -15,7 +15,7 @@ class SMS_Client:
         """    
         self.config_file = config_file
         self.config_file_path = config_file_path
-        self.account_sid , self.auth_token = read_config_file(self.config_file_path , self.config_file , "twilio.credentials" , ["account_sid" , "auth_token"])
+        self.account_sid , self.auth_token , self.phone_no = read_config_file(self.config_file_path , self.config_file , "twilio.credentials" , ["account_sid" , "auth_token" , "phone_no"])
         self.client = Client(self.account_sid, self.auth_token)
    
     @staticmethod
@@ -38,7 +38,7 @@ class SMS_Client:
         print(message_body)
         message = self.client.messages.create(
                                     body = message_body,
-                                    from_= "+15128775184",
+                                    from_= self.phone_no ,
                                     to = "+"+phone_number
                                 )
         print(message.sid)
