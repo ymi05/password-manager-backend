@@ -51,10 +51,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         add_profile_query = "EXEC Profile_Add "+"@Full_Name='"+name+"'"+" , @Email='"+email+"'"+" , @Password='"+password+"';"
         response = query_handler.exec_query_with_message(add_profile_query)
         data = json.loads(response)[0]
-
+        response = data
+    
+        logging.info(response)
         # response = {'message': "error: try again later"}
-        if "profile_id" in data:
-            profile_id = data['profile_id']
+        if "profile_id" in response:
+            profile_id = response['profile_id']
             # sms_client = SMS_Client()
             # sms_client.send_verification_message(profile_id)
             to_email , message = email_sender.generate_verification_message(profile_id)
