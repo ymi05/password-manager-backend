@@ -52,7 +52,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         response = query_handler.exec_query_with_message(add_profile_query)
         data = json.loads(response)[0]
 
-        response = {'message': "error: try again later"}
+        # response = {'message': "error: try again later"}
         if "profile_id" in data:
             profile_id = data['profile_id']
             # sms_client = SMS_Client()

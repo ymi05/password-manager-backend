@@ -3,10 +3,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from query_handler import exec_query_with_records
 import json
+import os
+from config_file_handler import read_config_file
 def send_mail( to_email , mail_content):
 
-    sender_address = 'PManager.CMPS283@gmail.com'
-    sender_pass = 'cmps283_PMANAGER2021'
+    sender_address , sender_pass = get_credenitals_from_config_file()
+
     receiver_address = to_email
     #Setup the MIME
     message = MIMEMultipart()
@@ -44,3 +46,8 @@ def generate_auth_message(profile_id):
 
     message = f"Hello! Here's your authentication code: {authentication_code} for PManager. If you did not sign up, please change your password now!"
     return email , message
+
+
+def get_credenitals_from_config_file(config_file = "config.ini" , config_file_path = os.path.dirname(__file__)):
+    email , password = read_config_file(config_file_path , config_file , "email.credentials" , ["email" , "password"])
+    return email , password

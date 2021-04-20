@@ -55,12 +55,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if "profile_id" in data:
             profile_id = data['profile_id']
 
+            response = {'message':"Please verify your account"}
             if profile_is_verified(profile_id) :
                 to_email , message = email_sender.generate_auth_message(profile_id)
                 email_sender.send_mail( to_email , message)
                 response = data
 
-            response = {'message':"Please verify your account"}
 
     return func.HttpResponse(
         json.dumps(response) ,
