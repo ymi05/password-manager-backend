@@ -21,6 +21,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     name = req.params.get('name')
     email = req.params.get('email')
     password = req.params.get('password')
+    encrypted_vault = req.params.get('encrypted_vault')
 
     if not name:
         try:
@@ -44,10 +45,18 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             pass
         else:
             password = req_body.get('password')
+  
+    if not encrypted_vault:
+        try:
+            req_body = req.get_json()
+        except ValueError:
+            pass
+        else:
+            encrypted_vault = req_body.get('encrypted_vault')
    
 
     response = {"message":"There is a missing parameter in your request"}
-    if name  and password and email: 
+    if name  and password and email and encrypted_vault: 
         add_profile_query = "EXEC Profile_Add "+"@Full_Name='"+name+"'"+" , @Email='"+email+"'"+" , @Password='"+password+"';"
         response = query_handler.exec_query_with_message(add_profile_query)
         data = json.loads(response)[0]
@@ -57,6 +66,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # response = {'message': "error: try again later"}
         if "profile_id" in response:
             profile_id = response['profile_id']
+
+            create_vault_query = "EXEC Vault_create "+"@Profile_id ='"+str(profile_id)+"'"+" , @Encrypted_vault='"+encrypted_vault+"';"
+            query_handler.exec_query_with_no_response(create_vault_query)
+      
+
             # sms_client = SMS_Client()
             # sms_client.send_verification_message(profile_id)
             to_email , message = email_sender.generate_verification_message(profile_id)

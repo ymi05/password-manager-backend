@@ -32,6 +32,7 @@ AS
 		SELECT @id = SCOPE_IDENTITY();
 		SELECT @code = SUBSTRING(CONVERT(varchar(255), NEWID()), 0, 7)
 		EXEC Verification_Code_generate @id , @code
+	
 
         SELECT 'Profile added, please verify your email.' [message] , (SELECT SCOPE_IDENTITY()) [profile_id] FOR JSON PATH
         END

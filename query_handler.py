@@ -33,3 +33,11 @@ def exec_query_with_records(sql_query):
 
 
 
+def exec_query_with_no_response(sql_query):
+    message = None
+    with db_connection.Db_Connection() as conn:
+        logging.info("Connection established")
+        with conn.cursor() as cursor:
+            cursor.execute(sql_query)
+   
+

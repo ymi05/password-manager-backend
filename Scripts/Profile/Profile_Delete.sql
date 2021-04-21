@@ -16,7 +16,7 @@ GO
 
 
 
-EXEC Profile_Delete 17
+EXEC Profile_Delete 57
 
 SELECT * FROM Profile
 
